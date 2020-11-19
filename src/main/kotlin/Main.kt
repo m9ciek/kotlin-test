@@ -1,9 +1,13 @@
+import java.util.*
+
 //normal classes
 //constructor without parameters
 class Customer
 
 //parametrized constructor
-class Contact(val id: Long, var name: String)
+class Contact(val id: Long, var name: String){
+    constructor() : this(0, " ")
+}
 
 //data class
 data class User(val id: Int, var name: String)
@@ -45,10 +49,57 @@ fun operateOnUser() {
     println("user == newUser? -> ${user == newUser}")
 }
 
+//loops etc
+fun doALoop() {
+    val elements = Arrays.asList("a", "b", "c", "last element")
+    for (e in elements) {
+        print("$e ")
+    }
+    println()
+}
+
+//lambda functions
+fun doAUpperCase() {
+    val up1 = { str: String -> str.toUpperCase() }
+    val up2: (String) -> String = {it.toUpperCase()}
+    println(up1("upper jeden"))
+    println(up2("upper dwa"))
+}
+
+fun translateIntToString() {
+    val translate: (Int) -> String = {it.minus(2).toString()}
+    println(translate(55))
+
+    val translate2: (Int, Double) -> String = {elem: Int, elem2:Double ->
+        elem2.toInt().minus(elem).toString()
+    }
+
+    println(translate2(12, 50.9))
+}
+
+//Higher order functions - takes function as parameter
+fun passMeFuction(abc: () -> Unit){
+    abc() //change function etc
+    println("PassMeFunction called")
+}
+
+fun functionToPass(first: Int, last: Int): Int{
+    val contact = Contact()
+    contact.name = "Changed Name"
+    println("Lambda is awesome: ${contact.name}")
+    return first.plus(last)
+}
+
+//Higher order functions - returns function
+fun returnAFunction(): (Int, Int) -> Int{
+    println("Return A function called")
+    return ::functionToPass
+}
+
 
 fun main() {
     sayInfo(
-        "Hello it's my message", "Testing vararg", "Testing 123", "Domain 4321",
+        "Hello it's my message", "Testing vararg", "Testing 123",
         prefix = "TestPrefix: "
     )
 
@@ -70,5 +121,20 @@ fun main() {
     val dog: Dog = York()
     dog.sayHello()
 
+    println("============================")
+    doALoop()
 
+    println("============================")
+    doAUpperCase()
+    translateIntToString()
+
+    println("============================")
+    passMeFuction {
+        functionToPass(1,2)
+    }
+
+    println("============================")
+    val functionWithTwoInts = returnAFunction()
+    val result = functionWithTwoInts(8,1)
+    println(result)
 }
