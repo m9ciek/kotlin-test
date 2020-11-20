@@ -1,11 +1,15 @@
 package collections
 
+import java.util.*
+
 //List - Set the same
 val systemUsers: MutableList<Int> = mutableListOf(1, 2, 3, -4, -8)
 val sudoUsers: List<Int> = systemUsers
 
 fun addSystemUser(userToAdd: Int) {
     systemUsers.add(userToAdd)
+    println(systemUsers.javaClass)
+    println(sudoUsers.javaClass)
 }
 
 fun showSudoUsersAndFilterNegative(): List<Int> {
